@@ -6,7 +6,7 @@ class Lexer:
         self.curCharPos = 0
         self.nextCharPos = 0
         self.char = ''
-        self.read_char()
+        self.read_char() ## initialize the lexer
         
         
     def read_char(self):
@@ -61,13 +61,14 @@ class Lexer:
 
         self.read_char()
         return token
+    
     def isLetter(self, ch: str) -> bool:
         return ch.isalpha() or ch == '_'
 
     def read_identifier(self) -> str:
         pos = self.curCharPos
-        #identifiers can have numbers after the first letter!
-        while self.isLetter(self.char) or self.char.isdigit() or self.char == "_":
+        #identifiers can have numbers after the first letter
+        while self.isLetter(self.char) or self.char.isdigit():
             self.read_char()
         return self.input[pos:self.curCharPos]
     def skip_comment(self):
@@ -76,7 +77,7 @@ class Lexer:
             self.read_char()             
             while self.char != '\n' and self.char != '\0':
                 self.read_char()
-        # 2. MULTI-LINE COMMENTS (/* ... */)
+        # MULTI-LINE COMMENTS (/* ... */)
         elif self.peek_char() == '*':
             self.read_char() # Advance onto the '*'
             
@@ -100,7 +101,7 @@ class Lexer:
                 self.read_char()
                 continue # Jump back to the top of the loop
                 
-            # 2. Stop Condition
+            # Stop Condition
             if self.char == '"' or self.char == '\0':
                 break
                 
